@@ -54,7 +54,7 @@ const UserDetails = () => {
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
           <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
-            {userData?.profile && userData.profile!=="none" ? (
+            {userData?.profile ? (
               <img
                 src={userData?.profile}
                 className="h-full w-full object-fit rounded-full"
@@ -75,17 +75,17 @@ const UserDetails = () => {
             <div className="space-y-3">
               <p>
                 <strong className="font-medium">Full Name:</strong>{' '}
-                {userData?.fullname}
+                {userData?.name}
               </p>
               <p>
                 <strong className="font-medium">Email:</strong> {userData?.email ? userData?.email : 'No Email Provided'}
               </p>
-              <p>
+              {/* <p>
                 <strong className="font-medium">Phone No:</strong> {userData?.phone }
-              </p>
-              <p>
+              </p> */}
+              {/* <p>
                 <strong className="font-medium">Type:</strong> {userData?.type }
-              </p>
+              </p> */}
              
               <p>
                 <strong className="font-medium">Created At:</strong> {new Date(userData?.createdAt).toLocaleDateString()}
