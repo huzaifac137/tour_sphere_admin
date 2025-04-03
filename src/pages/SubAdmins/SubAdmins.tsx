@@ -137,7 +137,7 @@ const SubAdmins = () => {
             }
             previousLinkClassName={'previousBttn'}
             activeLinkClassName={
-              'page-link relative block py-1.5 px-3 border-0 bg-[#F7630C] dark:bg-[#ffffff] dark:text-[#F7630C] text-[#ffffff] outline-none transition-all duration-300  hover:bg-gray-600 shadow-md focus:shadow-md'
+              'page-link relative block py-1.5 px-3 border-0 bg-white text-[#F7630C] dark:bg-[#ffffff] dark:text-[#F7630C] font-bold outline-none transition-all duration-300 rounded-full hover:opacity-90 shadow-md focus:shadow-md'
             }
             disabledClassName={
               'page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none'

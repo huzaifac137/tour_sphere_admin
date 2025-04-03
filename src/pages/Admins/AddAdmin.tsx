@@ -74,7 +74,7 @@ const AddAdmin = () => {
               Admin Form
             </h3>
           </div>
-          <form action="#" onSubmit={onSubmit}>
+          <form action="#" onSubmit={onSubmit} autoComplete="off">
             <div className="p-6.5">
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/2">

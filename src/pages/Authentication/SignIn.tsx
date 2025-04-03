@@ -246,7 +246,7 @@ const SignIn = () => {
                 <div className="mt-6 text-center">
                   <p>
                     <Link to="/auth/forgetpassword" className="text-[#3e4532]">
-                      Forget Password
+                      Forgot Password
                     </Link>
                   </p>
                 </div>

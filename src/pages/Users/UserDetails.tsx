@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumb';
 import CoverOne from '../../images/cover/cover-01.png';
-import userSix from '../../images/user/user-06.png';
+import Loading from '../../images/loading.png';
 import axios from 'axios';
 import { serverLink } from '../../server/server';
 import { useLocation } from 'react-router-dom';
@@ -14,7 +14,7 @@ const UserDetails = () => {
   const userId = pathname.pathname.split('/')[2];
 
   const adminToken = useSelector((state: any) => state?.auth?.admin?.token);
-
+ 
   const user = async () => {
     try {
       const res = await axios.get(`${serverLink}api/v1/admin-ki-apis/details/user/${userId}` , {
@@ -31,6 +31,7 @@ const UserDetails = () => {
   useEffect(() => {
     user();
   }, []);
+  
 
   return (
     <>
@@ -62,13 +63,13 @@ const UserDetails = () => {
               />
             ) : (
               <img
-                src={userSix}
-                className="h-full w-full object-fit"
+                src={Loading}
+                  className="h-full w-full object-cover rounded-full"
                 alt="profile"
               />
             )}
           </div>
-          <div className="max-w-4xl mx-auto p-5 bg-white rounded-lg shadow">
+          <div className="max-w-4xl mx-auto p-5 bg-white rounded-lg shadow dark:border-strokedark dark:bg-boxdark">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               User Profile
             </h2>

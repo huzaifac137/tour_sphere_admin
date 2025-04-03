@@ -32,8 +32,20 @@ const Users = () => {
   };
   
   useEffect(() => {
-    allData();
+    const fetchDataAndSetPage = async () => {
+      const storedPage = localStorage.getItem('userListPage');
+      if (storedPage) {
+        const pageNumber = parseInt(storedPage);
+        await allData();
+        setPageNmber(pageNumber);
+        localStorage.removeItem('userListPage');
+      } else {
+        await allData();
+      }
+    };
+    fetchDataAndSetPage();
   }, []);
+
   const handledelte = async (id: any) => {
     try {
       const res = await axios.delete(`${serverLink}api/v1/admin-ki-apis/users-admins/${id}`, {
@@ -55,27 +67,6 @@ const Users = () => {
     }
   };
 
-  // mark user as special or remove from special
-  const handleSpecialToggle = async (id: any) => {
-    try {
-      const res = await axios.post(`${serverLink}api/v1/admin-ki-apis/make-user/special-or-not`, {
-        appUserId: id,
-      } , {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      console.log(res.data);
-      toast.success(`User marked as ${res?.data?.flag} successfully`, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      setTimeout(()=>{
-      navigate("/users");
-      },1500);
-    } catch (error) {
-      toast.error(error?.response?.data?.message , {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
-  };
 
 
   // Handle Filter Functionality
@@ -109,6 +100,7 @@ const Users = () => {
   // Handle User Details
   const navigate = useNavigate();
   const userDetailsPage = (id: any) => {
+    localStorage.setItem('userListPage', pageNmber.toString());
     navigate(`/user/${id}`);
   };
 
@@ -141,7 +133,7 @@ const Users = () => {
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
-                Username
+                Enter Username
               </label>
               <input
                 type="text"
@@ -185,7 +177,7 @@ const Users = () => {
                 </thead>
                 <tbody>
                   {displayItems?.map((user) => (
-                    <tr>
+                    <tr key={Math.random()}>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11" key={user?._id}>
                         <h5 className="font-medium text-black dark:text-white">
                           {user?.name && user?.name !=="" ? user.name : "(Name not provided)" }
@@ -275,6 +267,7 @@ const Users = () => {
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={pageCount}
+            forcePage={pageNmber}
             previousLabel={
               <GrFormNext className="fill-primary dark:fill-whit text-xl rotate-180" />
             }
@@ -287,7 +280,7 @@ const Users = () => {
             }
             previousLinkClassName={'previousBttn'}
             activeLinkClassName={
-              'page-link relative block py-1.5 px-3 border-0 bg-[#F7630C] dark:bg-[#ffffff] dark:text-[#F7630C] text-[#ffffff] outline-none transition-all duration-300  hover:bg-gray-600 shadow-md focus:shadow-md'
+              'page-link relative block py-1.5 px-3 border-0 bg-white text-[#F7630C] dark:bg-[#ffffff] dark:text-[#F7630C] font-bold outline-none transition-all duration-300 rounded-full hover:opacity-90 shadow-md focus:shadow-md'
             }
             disabledClassName={
               'page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none'

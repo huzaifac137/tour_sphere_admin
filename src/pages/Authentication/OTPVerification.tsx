@@ -227,7 +227,7 @@ const OTPVerification = () => {
                       required
                       type="password"
                       onChange={onchange}
-                      placeholder="6+ Characters, 1 Capital letter"
+                      placeholder="enter password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-[#3e4532] focus-visible:shadow-none"
                     />
                     <span className="absolute right-4 top-4">
@@ -263,7 +263,7 @@ const OTPVerification = () => {
                       required
                       type="password"
                       onChange={onchange}
-                      placeholder="6+ Characters, 1 Capital letter"
+                      placeholder="enter password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-[#3e4532] focus-visible:shadow-none"
                     />
                     <span className="absolute right-4 top-4">
