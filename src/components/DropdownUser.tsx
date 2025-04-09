@@ -5,6 +5,7 @@ import { logoutSuccess, profilePicSuccess } from '../redux/slices/adminSlice';
 import { CiImageOn } from 'react-icons/ci';
 import { serverLink } from '../server/server';
 import axios from 'axios';
+import userSix from "../images/loading.png";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

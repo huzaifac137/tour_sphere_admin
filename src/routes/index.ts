@@ -9,6 +9,8 @@ const EditAdmin = lazy(() => import('../pages/Admins/EditAdmin.tsx'));
 const UserDetails = lazy(() => import('../pages/Users/UserDetails.tsx'));
 const SubAdmins = lazy(()=> import('../pages/SubAdmins/SubAdmins.tsx'));
 const CreateSubAdmins = lazy(()=> import('../pages/SubAdmins/CreateSubAdmin.tsx'));
+const NewTourRequests = lazy(()=> import('../pages/NewTourRequests/NewTourRequests.tsx')); 
+const EditTourRequests = lazy(()=> import('../pages/EditTourRequests/EditTourRequests.tsx'));
 const coreRoutes = [
   {
     path: '/profile',
@@ -41,6 +43,18 @@ const coreRoutes = [
     path: '/registeradmin',
     title: 'Register Admin',
     component: AddAdmin,
+    
+  },
+  {
+    path: '/new-tour-requests',
+    title: 'New Tour Requests',
+    component: NewTourRequests,
+    
+  },
+  {
+    path: '/edit-tour-requests',
+    title: 'Edit Tour Requests',
+    component: EditTourRequests,
     
   },
 ];

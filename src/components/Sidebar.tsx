@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../images/logo/logo2.png';
 import { RxDashboard } from 'react-icons/rx';
-import {MdOutlineProductionQuantityLimits} from "react-icons/md";
+import {MdAddLocation, MdEditDocument, MdEditLocation, MdOutlineProductionQuantityLimits} from "react-icons/md";
 import { MdGroups } from "react-icons/md";
 import { RiUserLine, RiAdminLine, RiServerFill, RiDriveFill, RiCarFill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
@@ -151,6 +151,34 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   >
                     <RiAdminLine/>
                     Admins
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/new-tour-requests"
+                    onClick={closeSidebar}
+                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                      pathname.includes('new-tour-requests') &&
+                      'bg-graydark dark:bg-meta-4'
+                    }`}
+                  >
+                    <MdAddLocation/>
+                    New Tour Requests
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/edit-tour-requests"
+                    onClick={closeSidebar}
+                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                      pathname.includes('edit-tour-requests') &&
+                      'bg-graydark dark:bg-meta-4'
+                    }`}
+                  >
+                    <MdEditLocation/>
+                    Edit Tour Requests
                   </NavLink>
                 </li>
                 

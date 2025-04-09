@@ -1,0 +1,255 @@
+import { useEffect, useState } from 'react';
+import Breadcrumb from '../../components/Breadcrumb';
+import ReactPaginate from 'react-paginate';
+import { GrFormNext } from 'react-icons/gr';
+import axios from 'axios';
+import { serverLink } from '../../server/server';
+import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../../common/Loader';
+import { MdMoney } from 'react-icons/md';
+const NewTourRequests = () => {
+  const adminToken = useSelector((state: any) => state.auth.admin?.token);
+  const [isLoading, setisLoading] = useState(true);
+  // Handle All Users
+  const [usersData, setusersData] = useState([]);
+  const allData = async () => {
+    setisLoading(true);
+    try {
+      const res = await axios.get(`${serverLink}api/v1/admin-ki-apis/requests/tours/unapproved`, {
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+        },
+      });
+      setusersData(res.data?.tours);
+      setisLoading(false);
+    } catch (error) {
+      alert('Error Getting All Senders');
+      setisLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    const fetchDataAndSetPage = async () => {
+      const storedPage = localStorage.getItem('newTourListPage');
+      if (storedPage) {
+        const pageNumber = parseInt(storedPage);
+        await allData();
+        setPageNmber(pageNumber);
+        localStorage.removeItem('newTourListPage');
+      } else {
+        await allData();
+      }
+    };
+    fetchDataAndSetPage();
+  }, []);
+   
+  const handleAccept = async (id: any) => {
+    try {
+      const res = await axios.patch(`${serverLink}api/v1/admin-ki-apis/requests/tours/unapproved/accept/${id}`, {}, {
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
+      toast.success('Tour Request Accepted', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      allData(); // Refresh the list
+    } catch (error) {
+      toast.error(error?.response?.data?.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
+  const handleReject = async (id: any) => {
+    try {
+      const res = await axios.delete(`${serverLink}api/v1/admin-ki-apis/requests/tours/unapproved/${id}`, {
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
+      toast.success('Tour Request Rejected', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      allData(); // Refresh the list
+    } catch (error) {
+      toast.error(error?.response?.data?.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+  //
+
+  // Handle User Details
+  const navigate = useNavigate();
+  const userDetailsPage = (id: any) => {
+    localStorage.setItem('newTourListPage', pageNmber.toString());
+    navigate(`/user/${id}`);
+  };
+
+  // handle pagination
+  const [pageNmber, setPageNmber] = useState(0);
+  const itemsPerPage = 6;
+  const pageVisited = pageNmber * itemsPerPage;
+  const displayItems = usersData?.slice(
+    pageVisited,
+    pageVisited + itemsPerPage,
+  );
+  const pageCount = Math.ceil(usersData?.length / itemsPerPage);
+  const handlePageClick = ({ selected }) => {
+    setPageNmber(selected);
+  };
+  if (isLoading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+  return (
+    <>
+      <Breadcrumb pageName="New Tour Requests" />
+      {/* <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"> */}
+      <ToastContainer />
+      <form action="#">
+        <div className="px-6.5 pt-6.5">
+          <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+          </div>
+        </div>
+      </form>
+      {usersData?.length !== 0 ? (
+        <>
+          <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 my-5">
+            <div className="max-w-full overflow-x-auto">
+              <table className="w-full table-auto">
+                <thead>
+                  <tr className="bg-gray-2 text-left dark:bg-meta-4">
+                    <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                      Title
+                    </th>
+                    {/* <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                      Description
+                    </th> */}
+                    <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                      Price
+                    </th>
+                    <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                      Images
+                    </th>
+                    <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                      Joined
+                    </th>
+                    <th className="py-4 px-4 font-medium text-black dark:text-white">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayItems?.map((user) => (
+                    <tr key={Math.random()}>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11" key={user?._id}>
+                        <h5 className="font-medium text-black dark:text-white">
+                          {user?.title && user?.title !=="" ? user.title : "(Title not provided)" }
+                        </h5>
+                      </td>
+                      {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <p className="text-black dark:text-white">
+                          {user?.description ? user.description : "(Description not provided)"}
+                        </p>
+                      </td> */}
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <p className="text-black dark:text-white">
+                          {user?.price ? user.price : "(Price not provided)"}
+                        </p>
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        {user?.images && user.images.length > 0 ? (
+                          <img 
+                            src={user.images[0]} 
+                            alt="Tour" 
+                            className="w-20 h-20 object-cover rounded"
+                          />
+                        ) : (
+                          <p className="text-black dark:text-white">(No image)</p>
+                        )}
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <p className="text-black dark:text-white">
+                          {moment(user?.createdAt).fromNow()}
+                        </p>
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <div className="flex items-center space-x-3.5">
+                          <button
+                            className="hover:text-green-500"
+                            onClick={() => {
+                              handleAccept(user?._id);
+                            }}
+                          >
+                            <svg
+                              className="fill-current"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                          </button>
+                          <button
+                            className="hover:text-[#EE1010]"
+                            onClick={() => {
+                              handleReject(user?._id);
+                            }}
+                          >
+                            <svg
+                              className="fill-current"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+              </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel={
+              <GrFormNext className="fill-primary dark:fill-whit text-xl" />
+            }
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            forcePage={pageNmber}
+            previousLabel={
+              <GrFormNext className="fill-primary dark:fill-whit text-xl rotate-180" />
+            }
+            renderOnZeroPageCount={null}
+            containerClassName={
+              'flex justify-center items-center gap-4 text-[14px] list-style-none'
+            }
+            pageLinkClassName={
+              'page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'
+            }
+            previousLinkClassName={'previousBttn'}
+            activeLinkClassName={
+              'page-link relative block py-1.5 px-3 border-0 bg-white text-[#F7630C] dark:bg-[#ffffff] dark:text-[#F7630C] font-bold outline-none transition-all duration-300 rounded-full hover:opacity-90 shadow-md focus:shadow-md'
+            }
+            disabledClassName={
+              'page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none'
+            }
+          />
+        </>
+      ) : (
+        'Currently, there are no New Tour Requests Found.'
+      )}
+    </>
+  );
+};
+
+export default NewTourRequests;
