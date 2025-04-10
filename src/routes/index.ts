@@ -10,7 +10,9 @@ const UserDetails = lazy(() => import('../pages/Users/UserDetails.tsx'));
 const SubAdmins = lazy(()=> import('../pages/SubAdmins/SubAdmins.tsx'));
 const CreateSubAdmins = lazy(()=> import('../pages/SubAdmins/CreateSubAdmin.tsx'));
 const NewTourRequests = lazy(()=> import('../pages/NewTourRequests/NewTourRequests.tsx')); 
+const NewTourDetails = lazy(()=> import('../pages/NewTourRequests/NewTourDetails.tsx')); 
 const EditTourRequests = lazy(()=> import('../pages/EditTourRequests/EditTourRequests.tsx'));
+const EditTourDetails = lazy(()=> import('../pages/EditTourRequests/EditTourDetails.tsx'));
 const coreRoutes = [
   {
     path: '/profile',
@@ -52,9 +54,21 @@ const coreRoutes = [
     
   },
   {
+    path: '/new-tour-requests/:id',
+    title: 'New Tour Details',
+    component: NewTourDetails,
+    
+  },
+  {
     path: '/edit-tour-requests',
     title: 'Edit Tour Requests',
     component: EditTourRequests,
+    
+  },
+  {
+    path: '/edit-tour-requests/:id',
+    title: 'Edit Tour Details',
+    component: EditTourDetails,
     
   },
 ];
