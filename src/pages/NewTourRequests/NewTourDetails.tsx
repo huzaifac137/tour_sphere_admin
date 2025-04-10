@@ -36,7 +36,7 @@ const NewTourDetails = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Edit Tour Request Details" />
+      <Breadcrumb pageName="New Tour Request Details" />
       <ToastContainer />
       <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="relative z-20 h-35 md:h-65">
